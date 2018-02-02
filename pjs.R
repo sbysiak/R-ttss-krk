@@ -7,7 +7,7 @@ writeLines(lines, "scrape_final.js")
 system("phantomjs scrape_final.js")
 
 pg <- read_html("1.html")
-test9 <-html_node(pg,'.vehicleInfo')
+test9 <-html_node(pg,'#times-table')
 
 okurcze <- html_text(test9)
 
