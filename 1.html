@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="pl"><head>
+		<title>TTSS Kraków - Teatr Bagatela - Odjazdy tramwajów na żywo</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="index.css">
+		<style type="text/css" id="vehicle-data-style"></style>
+	</head>
+	<body>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<ul class="nav navbar-nav">
+					<li class="navbar-header">
+						<a class="navbar-brand" href="" data-translate="page_name">TTSS Kraków</a>
+					</li>
+					<li>
+						<form class="navbar-form navbar-left">
+							<select class="form-control" id="lang-select">
+								<option value="pl">PL</option>
+								<option value="en">EN</option>
+							</select>
+						</form>
+					</li>
+					<li>
+						<a href="/map.html" data-translate="map">Mapa</a>
+					</li>
+				</ul>
+				
+				
+				<form class="navbar-form navbar-left">
+					<div class="input-group">
+						<span class="input-group-btn">
+							<input type="text" class="form-control form-round-left" id="stop-name" placeholder="Nazwa przystanku" autofocus="autofocus">
+						</span>
+						<select class="form-control" id="stop-name-autocomplete">
+						</select>
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-default" data-translate="go_button">Dalej</button>
+						</span>
+					</div>
+				</form>
+				
+				<button type="button" class="btn btn-default navbar-btn pull-right" id="refresh" data-translate="refresh_button">⟳ Odśwież</button>
+				<p class="navbar-text pull-right" id="refresh-text">Ostatnio odświeżone 2 s temu</p>
+			</div>
+		</nav>
+		
+		<div class="container-fluid">
+			<div id="alert" class="alert alert-danger alert-dismissible" style="display: none;">
+				<a href="#" class="close" id="alert-close" aria-label="close">×</a>
+				<strong data-translate="error_title">Wystąpił błąd!</strong> <span id="alert-text"></span>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<h2 id="times-stop-name">Teatr Bagatela</h2>
+					
+					<div id="times-alerts"></div>
+					
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th data-translate="header_line">Linia</th>
+								<th>
+									<span data-translate="header_direction">Kierunek</span>
+									<a id="vehicle-data" data-translate="header_vehicle">Pojazd
+								</a></th>
+								<th data-translate="header_vehicle" class="vehicleData">Pojazd</th>
+								<th data-translate="header_time">Czas</th>
+								<th data-translate="header_delay">Opóźn.</th>
+							</tr>
+						</thead>
+						<tbody id="times-table"><tr class="active"><td>18</td><td>Czerwone Maki P+R<span class="vehicleInfo" title="RY810 NGT8 (niskopodłogowy)">♿</span></td><td class="vehicleData">RY810</td><td>7 min temu</td><td></td></tr><tr class="active"><td>4</td><td>Wzgórza K.<span class="vehicleInfo" title="HG926 2014N (niskopodłogowy)">♿</span></td><td class="vehicleData">HG926</td><td>6 min temu</td><td></td></tr><tr class="active"><td>20</td><td>Cichy Kącik<span class="vehicleInfo" title="HL440 EU8N (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HL440</td><td>5 min temu</td><td></td></tr><tr class="active"><td>13</td><td>Nowy Bieżanów P+R<span class="vehicleInfo" title="RF323 GT8S (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">RF323</td><td>5 min temu</td><td></td></tr><tr class="active"><td>2</td><td>Cm. Rakowicki<span class="vehicleInfo" title="HK461 N8S-NF (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HK461</td><td>3 min temu</td><td></td></tr><tr class="active"><td>24</td><td>Bronowice Małe<span class="vehicleInfo" title="HG999 405N-Kr (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HG999</td><td>3 min temu</td><td></td></tr><tr class="active"><td>24</td><td>Kurdwanów P+R<span class="vehicleInfo" title="RG902 2014N (niskopodłogowy)">♿</span></td><td class="vehicleData">RG902</td><td>2 min temu</td><td></td></tr><tr class="active"><td>18</td><td>Krowodrza Górka<span class="vehicleInfo" title="RY813 NGT8 (niskopodłogowy)">♿</span></td><td class="vehicleData">RY813</td><td>2 min temu</td><td></td></tr><tr class="active"><td>14</td><td>Bronowice Małe<span class="vehicleInfo" title="RY816 NGT8 (niskopodłogowy)">♿</span></td><td class="vehicleData">RY816</td><td>1 min temu</td><td></td></tr><tr class="active"><td>8</td><td>Borek Fałęcki<span class="vehicleInfo" title="RP625 NGT6 (2) (niskopodłogowy)">♿</span></td><td class="vehicleData">RP625</td><td>1 min temu</td><td></td></tr><tr class="active"><td>2</td><td>Salwator<span class="vehicleInfo" title="HL433 EU8N (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HL433</td><td>0 min temu</td><td></td></tr><tr class="success"><td>24</td><td>Bronowice Małe<span class="vehicleInfo" title="RF311 GT8S (wysokopodłogowy)">‐&nbsp;</span></td><td class="vehicleData">RF311</td><td class="status-boarding">&gt;&gt;&gt;</td><td>7 min</td></tr><tr><td>18</td><td>Czerwone Maki P+R<span class="vehicleInfo" title="RY809 NGT8 (niskopodłogowy)">♿</span></td><td class="vehicleData">RY809</td><td>40 s</td><td>0 min</td></tr><tr><td>8</td><td>Bronowice Małe<span class="vehicleInfo" title="RP635 NGT6 (3) (niskopodłogowy)">♿</span></td><td class="vehicleData">RP635</td><td>40 s</td><td>2 min</td></tr><tr><td>14</td><td>Mistrzejowice<span class="vehicleInfo" title="HW115 E1 (wysokopodłogowy)">‐&nbsp;</span></td><td class="vehicleData">HW115</td><td>40 s</td><td>0 min</td></tr><tr><td>20</td><td>Mały Płaszów<span class="vehicleInfo" title="HL404 EU8N (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HL404</td><td>40 s</td><td>2 min</td></tr><tr><td>20</td><td>Cichy Kącik<span class="vehicleInfo" title="HL427 EU8N (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HL427</td><td>3 min</td><td>2 min</td></tr><tr><td>4</td><td>Bronowice Małe<span class="vehicleInfo" title="RG907 2014N (niskopodłogowy)">♿</span></td><td class="vehicleData">RG907</td><td>4 min</td><td>1 min</td></tr><tr><td>8</td><td>Borek Fałęcki<span class="vehicleInfo" title="RP603 NGT6 (1) (niskopodłogowy)">♿</span></td><td class="vehicleData">RP603</td><td>4 min</td><td>0 min</td></tr><tr><td>18</td><td>Krowodrza Górka<span class="vehicleInfo" title="RY823 NGT8 (niskopodłogowy)">♿</span></td><td class="vehicleData">RY823</td><td>5 min</td><td>0 min</td></tr><tr><td>13</td><td>Bronowice<span class="vehicleInfo" title="RF328 GT8S (wysokopodłogowy)">‐&nbsp;</span></td><td class="vehicleData">RF328</td><td>5 min</td><td>3 min</td></tr><tr><td>8</td><td>Bronowice Małe<span class="vehicleInfo" title="RP615 NGT6 (2) (niskopodłogowy)">♿</span></td><td class="vehicleData">RP615</td><td>6 min</td><td>0 min</td></tr><tr><td>20</td><td>Mały Płaszów<span class="vehicleInfo" title="HL401 EU8N (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HL401</td><td>6 min</td><td>0 min</td></tr><tr><td>24</td><td>Bronowice Małe<span class="vehicleInfo" title="RG905 2014N (niskopodłogowy)">♿</span></td><td class="vehicleData">RG905</td><td>7 min</td><td>0 min</td></tr><tr><td>18</td><td>Czerwone Maki P+R<span class="vehicleInfo" title="RY814 NGT8 (niskopodłogowy)">♿</span></td><td class="vehicleData">RY814</td><td>7 min</td><td>0 min</td></tr><tr><td>4</td><td>Wzgórza K.<span class="vehicleInfo" title="HG924 2014N (niskopodłogowy)">♿</span></td><td class="vehicleData">HG924</td><td>7 min</td><td>0 min</td></tr><tr><td>13</td><td>Nowy Bieżanów P+R<span class="vehicleInfo" title="RF326 GT8S (wysokopodłogowy)">‐&nbsp;</span></td><td class="vehicleData">RF326</td><td>8 min</td><td>0 min</td></tr><tr><td>20</td><td>Cichy Kącik</td><td class="vehicleData"></td><td>13:52</td><td>?</td></tr><tr><td>24</td><td>Kurdwanów P+R<span class="vehicleInfo" title="RW137 E1 (wysokopodłogowy)">‐&nbsp;</span></td><td class="vehicleData">RW137</td><td>10 min</td><td>0 min</td></tr><tr><td>2</td><td>Cm. Rakowicki<span class="vehicleInfo" title="HL438 EU8N (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HL438</td><td>11 min</td><td>0 min</td></tr><tr><td>14</td><td>Bronowice Małe<span class="vehicleInfo" title="HW145 E1 (wysokopodłogowy)">‐&nbsp;</span></td><td class="vehicleData">HW145</td><td>11 min</td><td>0 min</td></tr><tr><td>18</td><td>Krowodrza Górka<span class="vehicleInfo" title="RY811 NGT8 (niskopodłogowy)">♿</span></td><td class="vehicleData">RY811</td><td>12 min</td><td>0 min</td></tr><tr><td>8</td><td>Borek Fałęcki<span class="vehicleInfo" title="RP618 NGT6 (2) (niskopodłogowy)">♿</span></td><td class="vehicleData">RP618</td><td>12 min</td><td>0 min</td></tr><tr><td>20</td><td>Mały Płaszów<span class="vehicleInfo" title="HL405 EU8N (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HL405</td><td>13 min</td><td>0 min</td></tr><tr><td>2</td><td>Salwator<span class="vehicleInfo" title="HK460 N8S-NF (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HK460</td><td>14 min</td><td>0 min</td></tr><tr><td>8</td><td>Bronowice Małe<span class="vehicleInfo" title="RP617 NGT6 (2) (niskopodłogowy)">♿</span></td><td class="vehicleData">RP617</td><td>14 min</td><td>1 min</td></tr><tr><td>14</td><td>Mistrzejowice<span class="vehicleInfo" title="RY819 NGT8 (niskopodłogowy)">♿</span></td><td class="vehicleData">RY819</td><td>15 min</td><td>0 min</td></tr><tr><td>18</td><td>Czerwone Maki P+R<span class="vehicleInfo" title="RY806 NGT8 (niskopodłogowy)">♿</span></td><td class="vehicleData">RY806</td><td>15 min</td><td>0 min</td></tr><tr><td>13</td><td>Bronowice</td><td class="vehicleData"></td><td>14:00</td><td>?</td></tr><tr><td>20</td><td>Cichy Kącik<span class="vehicleInfo" title="HL416 EU8N (częściowo niskopodłogowy)">*♿</span></td><td class="vehicleData">HL416</td><td>17 min</td><td>1 min</td></tr><tr><td>4</td><td>Bronowice Małe<span class="vehicleInfo" title="RG909 2014N (niskopodłogowy)">♿</span></td><td class="vehicleData">RG909</td><td>18 min</td><td>0 min</td></tr><tr><td>8</td><td>Borek Fałęcki<span class="vehicleInfo" title="RP621 NGT6 (2) (niskopodłogowy)">♿</span></td><td class="vehicleData">RP621</td><td>19 min</td><td>0 min</td></tr><tr><td>18</td><td>Krowodrza Górka</td><td class="vehicleData"></td><td>14:03</td><td>?</td></tr><tr><td>20</td><td>Mały Płaszów<span class="vehicleInfo" title="HZ270 105Na (wysokopodłogowy)">‐&nbsp;</span></td><td class="vehicleData">HZ270</td><td>21 min</td><td>0 min</td></tr><tr><td>8</td><td>Bronowice Małe<span class="vehicleInfo" title="RP622 NGT6 (2) (niskopodłogowy)">♿</span></td><td class="vehicleData">RP622</td><td>21 min</td><td>0 min</td></tr><tr><td>18</td><td>Czerwone Maki P+R<span class="vehicleInfo" title="RY812 NGT8 (niskopodłogowy)">♿</span></td><td class="vehicleData">RY812</td><td>22 min</td><td>0 min</td></tr><tr><td>4</td><td>Wzgórza K.<span class="vehicleInfo" title="RG903 2014N (niskopodłogowy)">♿</span></td><td class="vehicleData">RG903</td><td>22 min</td><td>0 min</td></tr></tbody>
+					</table>
+				</div>
+				<div class="col-md-6">
+					<!--
+					<h3 data-translate="header_lines">Linie</h3>
+					
+					<table class="table table-condensed">
+						<thead>
+							<tr>
+								<th data-translate="header_line">Linia</th>
+								<th data-translate="header_route">Trasa</th>
+								<th data-translate="header_carrier">Przewoźnik</th>
+							</tr>
+						</thead>
+						<tbody id="times-lines">
+						</tbody>
+					</table>
+					-->
+					
+					<p data-translate="help_click_for_schedule">Kliknij na wpis w tabeli odjazdów by zobaczyć rozkład jazdy danego tramwaju.</p>
+					
+					<h3 id="route-line"></h3>
+					
+					<p id="route-vehicle"></p>
+					
+					<table class="table table-condensed">
+						<thead>
+							<tr>
+								<th data-translate="header_time">Czas</th>
+								<th data-translate="header_stop">Przystanek</th>
+							</tr>
+						</thead>
+						<tbody id="route-table">
+						</tbody>
+					</table>
+					
+					<p class="small">
+						<span data-translate="help_legend">Legenda:</span>
+						<span class="label bg-active" data-translate="status_departed">Odjechał</span>
+						<span class="label bg-success" data-translate="status_stopped">Na przystanku</span>
+						<span class="label bg-default" data-translate="status_default">W trasie</span>
+						<span class="label bg-warning" data-translate="status_delayed_4">Opóźniony 4′+</span>
+						<span class="label bg-danger" data-translate="status_delayed_10">Opóźniony 10′+</span>
+					</p>
+					
+					<p class="small">
+						<span class="bigger" title="Bombardier NGT6, Bombardier NGT8, PESA 2014N Krakowiak, Newag Nevelo 126N" data-translate="low_floor_sign">♿</span> - <span data-translate="low_floor_description">tramwaj niskopodłogowy</span>.
+						<span class="bigger" title="Düwag/Man/MPK N8C-NF, Düwag/MPK GT8C, Bombardier-Rotax/MPK EU8N, Protram 405N-Kr" data-translate="partially_low_floor_sign">*♿</span> - <span data-translate="partially_low_floor_description">tramwaj częściowo niskopodłogowy</span>.
+						<span class="bigger" title="other tram types" data-translate="high_floor_sign">‐</span> - <span data-translate="high_floor_description">tramwaj wysokopodłogowy</span>.
+						<span data-translate="help_hover_for_more">Najedź na ikonę, by uzyskać więcej informacji.</span>
+					</p>
+					
+					<p class="small" data-translate="help_text">Względne czasy (np. 3 min) są podawane na podstawie faktycznej lokalizacji tramwajów. Czasy bezwzględne (np. 8:01) to odjazdy rozkładowe, pokazywane gdy tramwaj nie może być zlokalizowany. "?" oznacza nieznane opóźnienie.</p>
+					
+					<p class="small">© 2016-2017 Jacek Kowalski - <a href="https://github.com/jacekkow/mpk-ttss" data-translate="help_source">Źródło</a> - <a href="https://raw.githubusercontent.com/jacekkow/mpk-ttss/master/LICENSE" data-translate="help_license">Licencja</a></p>
+				</div>
+			</div>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="lang_pl.js" id="lang_script"></script>
+		<script type="text/javascript" src="common.js"></script>
+		<script type="text/javascript" src="index.js"></script>
+	
+
+</body></html>
