@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #url="http://www.ttss.krakow.pl/#?stop=77&mode=departure"
-url="https://mpk.jacekk.net/#!pl77"
-./save_page_as $url -d out --save-wait-time 3 --load-wait-time 3
+url='https://mpk.jacekk.net/#!pl77'
+./save_page_as $url -d out.html --save-wait-time 3 --load-wait-time 3
 
 grep "Bronowice" out.html > torm.txt
 export Nlines=`wc -l torm.txt | cut -d " " -f 1`
@@ -12,5 +12,5 @@ else
     echo "INFO: webpage saving succeeded"
 fi
 rm torm.txt
-rm out_files -r
+#rm out_files -r
 #rm tmp/* -r

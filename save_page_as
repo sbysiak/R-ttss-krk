@@ -22,7 +22,7 @@ load_wait_time=2
 save_wait_time=2
 scriptname="$(basename "$0")"
 destination="."
-browser="google-chrome"
+browser="firefox"
 suffix=""
 url=""
 
@@ -145,7 +145,6 @@ function validate_input() {
 validate_input
 ##############
 
-
 # Launch ${browser}, and wait for the page to load
 "${browser}" "${url}" &>/dev/null &
 sleep ${load_wait_time}
@@ -162,15 +161,13 @@ fi
 # Activate the ${browser} window, and "press" ctrl+s
 xdotool windowactivate "${browser_wid}" key --clearmodifiers "ctrl+s"
 
-
 sleep 1 # Give 'Save as' dialog box time to show up
 
 
 # Resolve the expected title name for save file dialog box (chrome & firefox differ in this regard)
 if [[ "${browser}" == "firefox" ]]; then
-    savefile_dialog_title="Save as"
+    savefile_dialog_title="Zapisz jako"
 else
-    #savefile_dialog_title="Save file"
     savefile_dialog_title="Zapisz plik" # Polaki-cebulaki
 fi
 
