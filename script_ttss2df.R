@@ -56,5 +56,8 @@ for (i in 1:NROW(df)) {
   else df[i, 3] <- gsub(" Min", "", df[i, 3])
 }
 
+# df$kierunek <- iconv(df$kierunek, "UTF-8", "ASCII", sub="")
+# df$kierunek <- gsub(" ", "_", df$kierunek)
+
 print("df after clearing: ")
 print(df)

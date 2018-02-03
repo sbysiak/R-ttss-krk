@@ -21,3 +21,5 @@
 
 *.html
 tmp/*
+saves/
+saves1/
