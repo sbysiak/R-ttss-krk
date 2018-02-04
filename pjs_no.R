@@ -40,17 +40,30 @@ repeat
     json_trams<-read_json(path=url)
     
     all_trams <- NA
+
+    move_to_next_stop = F
     for (i_tram in 1:length(json_trams["actual"][[1]])){
-      next_tram <- json_trams["actual"][[1]][[i_tram]]
+      next_tram <- try(json_trams["actual"][[1]][[i_tram]])
+      if(class(next_tram) == "try-error"){
+        print("ERROR occured @ js[\'actual\'][[1]][[i_tram]], moving to next stop ...")
+        move_to_next_stop = T
+        break
+      }
+      #next_tram <- json_trams["actual"][[1]][[i_tram]]
       if (i_tram > 0) all_trams <- merge(all_trams, next_tram, all=T)
       else all_trams <- next_tram
       #print(all_trams)
       #print(class(all_trams))
     }
+    if(move_to_next_stop){
+      next
+    }
     #all_trams[["actualRelativeTime"]] <- all_trams[["actualRelativeTime"]]/60
     df <- all_trams
-    print(df)
-
+    if(stop == "CichyKacik"){
+      print("start")
+      print(df)
+    }
     
     if(length(df)==0) 
     { print('next: length(data)=0')
@@ -64,11 +77,16 @@ repeat
     names(df)[which(names(df) == "patternText")] <- "Line"
     
         
-    eta <- as.POSIXct(df["plannedTime"][[1]], format="%H:%M") - Sys.time()
+    eta <- try(as.POSIXct(df["actualTime"][[1]], format="%H:%M") - Sys.time())
+    if(class(eta) == "try-error"){
+      print("ERROR occured @ df[\'actual_time\'], moving to next stop ...")
+      next
+    } 
     df["ETA"] <- as.numeric(eta, units="mins")
     late <- as.POSIXct(df["actualTime"][[1]],format="%H:%M") - as.POSIXct(df["plannedTime"][[1]],format="%H:%M")
     df["Late"] <- as.numeric(late, units="mins")
-    df["x"] <- NULL
+    df[c("x","routeId","status","vehicleId","passageid","tripId","actualRelativeTime")] <- NULL
+    
     #print(df)
     #print(strrep("= = ",20))
     #names(df) <- c('Line','Direction','Vehicle','ETA','Late')
@@ -77,17 +95,17 @@ repeat
     #df$Vehicle <- NULL #vehicles are not interesting yet
     
     #Lets make ETA numbers again!
-    df$ETA <- gsub(" min", "", df$ETA)
-    df$ETA <- gsub(".* s", "0", df$ETA)
+    #df$ETA <- gsub(" min", "", df$ETA)
+    #df$ETA <- gsub(".* s", "0", df$ETA)
     df$ETA <- gsub(">>>", "0", df$ETA) 
-    df$ETA <- as.numeric(df$ETA)
-    df <- df[df$ETA<ETA_max,] #one measurement in five minutes so...
+    #df$ETA <- as.numeric(df$ETA)
+    df <- df[as.numeric(df$ETA)<ETA_max,] #one measurement in five minutes so...
     
     
     #df$Late <- gsub(" min", "", df$Late)
     #df$Late <- as.numeric(df$Late)
     df <- df[complete.cases(df$Late),] #removes trams which have just departed
-    
+    #print("end")
     print(df)    
     if(length(df$Late)<1)
     {print("next: length(df$Late)<1")
@@ -116,7 +134,14 @@ repeat
     write.csv(df, file = title)
     print(title)
     print(strrep(" =", 30))
+    print("")
   }
-  # Sys.sleep(300)
+  print("")
+  print("")
+  print(paste("\n\n", strrep(" =", 30), "\n\n", str(Sys.time())))
+  print("")
+  print("")
+  
+  Sys.sleep(130)
 }
 
