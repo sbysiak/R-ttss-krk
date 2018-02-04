@@ -37,7 +37,11 @@ repeat
     print(stop)
     url <- paste0('https://mpk.jacekk.net/proxy.php/services/passageInfo/stopPassages/stop?stop=', to.url[i], '&mode=departure')
     
-    json_trams<-read_json(path=url)
+    json_trams<-try(read_json(path=url))
+    if(class(json_trams) == "try-error"){
+      print("ERROR occured while reading json from url, continuing with next stop ...")
+      next
+    }
     
     all_trams <- NA
 
