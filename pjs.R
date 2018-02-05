@@ -17,10 +17,12 @@ df <-read.csv("stops_loops.csv")
 
 loops <- df$name
 loops <- gsub(" ","",loops)
+loops <- gsub(".","",loops,fixed = T)
+
 loops <- chartr(old1, new1, loops)
 
- repeat
- {
+repeat
+{
 for(i in 1:length(stops))
 {
 stop <- stops[i]
@@ -84,5 +86,5 @@ df$Time <- times
 write.csv(df, file = title)
 print(title)
 }
- # Sys.sleep(300)
+
 }
