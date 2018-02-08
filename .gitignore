@@ -23,3 +23,5 @@
 tmp/*
 saves/
 saves1/
+*/
+*.zip

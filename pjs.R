@@ -26,6 +26,7 @@ repeat
 for(i in 1:length(stops))
 {
 stop <- stops[i]
+#handling JS script
 url <- paste0('https://mpk.jacekk.net/#!pl',to.url[i])
 lines <- readLines("scrape_final.js")
 lines[1] <- paste0("var url ='", url ,"';")
@@ -34,11 +35,13 @@ writeLines(lines, "scrape_final.js")
 ## Download website
 system("phantomjs scrape_final.js")
 
+#rvest 
 pg <- read_html("1.html", encoding = "UTF-8")
 node<-html_node(pg,'#times-table')
 
 node.xml <- xmlParse(node)
 df <- xmlToDataFrame(node.xml)
+
 if(length(df)==0) 
 { print('next: length(data)=0')
   next}
