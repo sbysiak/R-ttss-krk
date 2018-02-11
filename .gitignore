@@ -8,6 +8,9 @@
 
 *.tar
 *.tgz
+*.zip
+
+.Rhistory
 
 *.log
 *.pdf
@@ -21,10 +24,11 @@
 
 *.html
 tmp/*
-saves/
-saves1/
+save*/
+SAVES*
 */
 *.zip
 
 ALL
 ALL*
+
