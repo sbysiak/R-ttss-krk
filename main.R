@@ -1,6 +1,7 @@
- rm(list = ls())
+rm(list = ls())
 library('lattice')
- df<-load("ALL")
+ library('latticeExtra')
+  df<-load("ALL")
  ALL$X.2<-NULL
  ALL$X.1<-NULL
  ALL$X<-NULL
@@ -26,26 +27,28 @@ while(t2<(TMAX-dt))
 {
   ALL_n[ALL_n$Time>t && ALL_n$Time<t2 ,]
   results <- append(results, mean(ALL_n[ALL_n$Time>=t & ALL_n$Time<t2 ,"Late"]))
-  times <- append(times, mean(ALL_n[ALL_n$Time>=t & ALL_n$Time<t2 ,"Time"]))
+  times <- append(times, t)
   t<-t2
   t2 <- t2 + dt
 }
 
-times <- as.POSIXct(times,  origin="1969-12-31 23:00:00", tz = "CET")
+times <- as.POSIXct(times,  format("%Y-%m-%d %h:%m:%s"), origin="1969-12-31 23:00:00")
 TMIN <- as.POSIXct(TMIN, tz = "CET")
-time_and_late <- data.frame(times, results)
-time_and_late <- time_and_late[complete.cases(time_and_late$times),]
-time_and_late <- time_and_late[time_and_late$times>TMIN,]
+time_and_late <- data.frame(times[2:length(times)], results[2:length(results)])
+names(time_and_late) <- c("times","results")
+time_and_late[is.na(time_and_late)] <- 0
 
 
-my.theme <- theEconomist.theme()
-myplot <- xyplot(results ~times, time_and_late, type = "l", par.settings = my.theme, 
+ my.theme <- theEconomist.theme()
+ myplot <- xyplot(results ~times, time_and_late, type = "l", par.settings = my.theme, 
        xlab = "Time", 
+       scales=list( x=list(cex = 1, rot = 45, tick.number = 20)),
        ylab = "Average delay in 3 minutes interval [min]",
        panel =function(x,y,...){ 
          panel.xyplot(x,y,...);
-         panel.lines(x=TMIN:TMAX, y=rep(1,100), col="red") })
+         panel.lines(x=TMIN:TMAX, y=rep(1,100), col="red") }
+       )
 
-trellis.device(device="png", filename="myplot2.png")
+trellis.device(device="png", filename="time_series_delayed.png")
 print(myplot)
 dev.off()
