@@ -3,6 +3,18 @@ https://www.r-bloggers.com/web-scraping-javascript-rendered-sites/ intro to webs
 latest closest ro working wersion in pjs.R
 http://flukeout.github.io/ tutorial of css select
 
+
+for everything to work You need to have all scripts in one directory, and following directories in this directory:
+\SAVES
+\rewrite
+---saves_rewrite
+---saves_rewrite_lines
+---saves_rewrite_lines_unique
+---saves_rewrite_stops_unique
+
+stops_loops.csv - data about stops and loops which are used thorughout the project
+stops_selected.csv - data for our investigation
+
 stops_and_directions.R - format stops names and directions from stops_selected.csv
 giant_data_frame.R - stores function creates data frame with all useful data harvested
 analysis_cd.R - summary about lines and stops
