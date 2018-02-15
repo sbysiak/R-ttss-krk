@@ -2,6 +2,11 @@ library('rvest')
 library("XML")
 library('stringr')
 
+#make sure you have direction "saves" in folder with script!
+
+
+#prepare list of stops and loops with filtered "tough" signs
+
 df <-read.csv("stops_selected.csv")
 
 stops <- df$name
@@ -21,6 +26,7 @@ loops <- gsub(".","",loops,fixed = T)
 
 loops <- chartr(old1, new1, loops)
 
+#main loop
 repeat
 {
 for(i in 1:length(stops))
@@ -35,17 +41,21 @@ writeLines(lines, "scrape_final.js")
 ## Download website
 system("phantomjs scrape_final.js")
 
-#rvest 
+#rvest magic: parsing document to html and picking out a html node
 pg <- read_html("1.html", encoding = "UTF-8")
 node<-html_node(pg,'#times-table')
 
+#parsing html node to xml and to data frame
 node.xml <- xmlParse(node)
 df <- xmlToDataFrame(node.xml)
 
+
+#avoiding empty dataframes
 if(length(df)==0) 
 { print('next: length(data)=0')
   next}
 # print(df)
+#peparing data frame
 names(df) <- c('Line','Direction','Vehicle','ETA','Late')
 # df_p <- df
 
@@ -61,22 +71,25 @@ df <- df[df$ETA<6,] #one measurement in five minutes so...
 
 df$Late <- gsub(" min", "", df$Late)
 df$Late <- as.numeric(df$Late)
-df <- df[complete.cases(df$Late),] #removes trams which have just departed
+df <- df[complete.cases(df$Late),] #removes trams which have just departed etc.
 
+#avoiding negative late etc.
 if(length(df$Late)<1)
 {print("next: length(df$Late)<1")
   next}
 #StopName
 #Time
+#filling two columns in data frame with stop names and time of measurement
 time <- toString(Sys.time())
 stopnames <-sprintf(stop, seq(1:length(df$ETA)))
 times <-sprintf(time, seq(1:length(df$ETA)))
 
-
+#parsing file title
 title <- paste(time, stop, sep = "_")
 title <- gsub(" ", "_", title, fixed = TRUE)
 title <- paste(title,".csv", sep = "")
 title <- paste("saves/",title, sep = "")
+#celaring Direction column from "tough" signs
 df$Direction <- iconv(df$Direction, "UTF-8", "UTF-8", sub="") #removes Polish signs
 df$Direction <- gsub(" ", "", df$Direction)
 df$Direction <- gsub("\n", "", df$Direction)
@@ -84,8 +97,10 @@ df$Direction <- gsub("*", "", df$Direction, fixed = TRUE)
 df$Direction <- gsub("♿", "", df$Direction, fixed = TRUE)
 df$Direction <- chartr(old1, new1, df$Direction)
 
+#filling columns with stop names and time of measurement
 df$StopName <- stopnames
 df$Time <- times
+#writing to a file, printing file name
 write.csv(df, file = title)
 print(title)
 }
