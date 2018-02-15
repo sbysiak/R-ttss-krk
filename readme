@@ -15,10 +15,14 @@ for everything to work You need to have all scripts in one directory, and follow
 stops_loops.csv - data about stops and loops which are used thorughout the project
 stops_selected.csv - data for our investigation
 
+ALL - gigant data frame with all data used in analysis
+
 stops_and_directions.R - format stops names and directions from stops_selected.csv
 giant_data_frame.R - stores function creates data frame with all useful data harvested
 analysis_cd.R - summary about lines and stops
 main.R - Plot & save time sequence of delays from all data
 lines_unique_2_stops_uniqe.R stores - function which return .csv with unique arrivals at given stop
 pjs.R - data harvesting from mpk.jacekk.net using 'rvest'
+nice_plots.R - functions to plot delays on all stops for a line given direction, also calculates correlations of stops intended to be nigheboruring ones
+ploting_nice_plots.R - saves all plots form report on drive.
 
