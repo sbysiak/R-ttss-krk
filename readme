@@ -2,3 +2,11 @@ https://gist.github.com/julionc/7476620 how to instal phantomjs
 https://www.r-bloggers.com/web-scraping-javascript-rendered-sites/ intro to webscrapping with R and phantomjs
 latest closest ro working wersion in pjs.R
 http://flukeout.github.io/ tutorial of css select
+
+stops_and_directions.R - format stops names and directions from stops_selected.csv
+giant_data_frame.R - stores function creates data frame with all useful data harvested
+analysis_cd.R - summary about lines and stops
+main.R - Plot & save time sequence of delays from all data
+lines_unique_2_stops_uniqe.R stores - function which return .csv with unique arrivals at given stop
+pjs.R - data harvesting from mpk.jacekk.net using 'rvest'
+

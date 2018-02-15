@@ -1,3 +1,6 @@
+
+#this script returns all stops and directions as written in data
+#use it before measurements and during analysis to make sure that in data is the stop you think about
 df <-read.csv("stops_selected.csv")
 
 stops <- df$name
